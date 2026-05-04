@@ -1,5 +1,6 @@
 # WhatsApp Notification Catalog (Sagenex)
 
+This catalog lists user-facing notifications and WhatsApp template variables. The quick examples are written for non-technical readers.
 
 ## Quick examples (non-technical)
 
@@ -7,32 +8,32 @@ The table below shows example messages with real values filled in. These are exa
 
 | Category | Notification | Example message |
 | --- | --- | --- |
-| Account | Welcome | Welcome to Sagenex, Amit Sharma (U042). Your account is ready. |
-| Auth | Email verification OTP | Your Sagenex verification code is 381204. It expires in 10 minutes. |
-| Auth | Login OTP | Your Sagenex login code is 904117. It expires in 10 minutes. |
-| Wallet | Transfer OTP | Transfer code: 552091. Do not share this code with anyone. |
-| KYC | KYC submitted | We received your KYC documents on 2026-05-05 10:30 IST. Status: PENDING. |
-| KYC | KYC approved | Your KYC is VERIFIED. Thank you, Amit. |
-| KYC | KYC rejected | Your KYC is REJECTED. Reason: PAN image not clear. Please resubmit. |
-| Wallet | Deposit status | Deposit of USD 250.00 is CONFIRMED. Txn ID: DPT-93841. |
-| Wallet | Withdrawal status | Withdrawal of INR 25,000 is PROCESSING. Ref: WD-1183. |
-| Wallet | Transfer sent | You sent USD 100.00 to Riya Kapoor (U389). Txn ID: TR-22091. |
-| Wallet | Transfer received | You received USD 100.00 from Amit Sharma (U042). Txn ID: TR-22091. |
-| Earnings | ROI payout | ROI credited: USD 18.25 for cycle Apr 2026. New balance: USD 410.60. |
-| Earnings | Bonus credited | Direct bonus credited: USD 12.00. New balance: USD 422.60. |
-| Earnings | Bonus unlocked | Unilevel L3 bonus is now unlocked. Locked amount USD 50.00 is released. |
-| Rank | Rank upgrade | Congrats. You are now Builder Plus (was Builder). |
-| Team | New referral | New referral joined: Priya Singh (U512). Sponsor: Amit Sharma. |
-| Team | Placement update | New team member placed under you on Left. Member: U512. |
-| SGChain | Transfer status | SGChain transfer INITIATED. Code: SG-9R2K1. Amount: USD 75.00. |
+| Account | Welcome | Welcome to Sagenex, Amit Sharma (U042). Your account is active, and you can sign in to view your dashboard. |
+| Auth | Email verification OTP | Your Sagenex verification code is 381204. Enter it to verify your account. It expires in 10 minutes. |
+| Auth | Login OTP | Your Sagenex login code is 904117. Use it to sign in. It expires in 10 minutes. |
+| Wallet | Transfer OTP | Transfer code: 552091. Enter this code to confirm the transfer. Do not share it. |
+| KYC | KYC submitted | We received your KYC documents on 2026-05-05 10:30 IST. Status: PENDING. We will notify you after review. |
+| KYC | KYC approved | Your KYC is VERIFIED. Thank you, Amit. You can continue using all available features. |
+| KYC | KYC rejected | Your KYC is REJECTED. Reason: PAN image not clear. Please resubmit from the KYC page. |
+| Wallet | Deposit status | Deposit of USD 250.00 is CONFIRMED. Txn ID: DPT-93841. The amount is now in your balance. |
+| Wallet | Withdrawal status | Withdrawal of INR 25,000 is PROCESSING. Ref: WD-1183. We will notify you when it is paid. |
+| Wallet | Transfer sent | You sent USD 100.00 to Riya Kapoor (U389). Txn ID: TR-22091. The transfer is complete. |
+| Wallet | Transfer received | You received USD 100.00 from Amit Sharma (U042). Txn ID: TR-22091. The funds are now available. |
+| Earnings | ROI payout | ROI credited: USD 18.25 for cycle Apr 2026. New balance: USD 410.60. Thank you for staying active. |
+| Earnings | Bonus credited | Direct bonus credited: USD 12.00. New balance: USD 422.60. Keep building your team. |
+| Earnings | Bonus unlocked | Unilevel L3 bonus is now unlocked. Locked amount USD 50.00 is released to your balance. |
+| Rank | Rank upgrade | Congrats. You are now Builder Plus (was Builder). Your progress has been updated. |
+| Team | New referral | New referral joined: Priya Singh (U512). Sponsor: Amit Sharma. Welcome them to the team. |
+| Team | Placement update | New team member placed under you on Left. Member: U512. Your tree is updated. |
+| SGChain | Transfer status | SGChain transfer INITIATED. Code: SG-9R2K1. Amount: USD 75.00. Keep the code safe. |
 | SGBN | Coupon status | SGBN coupon created: SGBN-7F21. Amount: USD 200.00. Expires: 2026-06-01. |
-| LP | Liquidity pool | LP deposit of USD 500.00 is CONFIRMED. Request ID: LP-4021. |
+| LP | Liquidity pool | LP deposit of USD 500.00 is CONFIRMED. Request ID: LP-4021. Your funds are deployed. |
 | SGGOLD | Autopay status | SGGOLD autopay SUCCESS. Amount: USD 40.00. Due date: 2026-05-10. |
-| SGNXGOLD | Autopay status | SGNXGOLD autopay FAILED. Reason: insufficient balance. |
-| Lottery | Ticket purchased | Lottery ticket purchased. Ticket ID: LT-1120. Draw: 2026-05-31. |
-| Lottery | Result | Lottery result: WIN. Prize: USD 100. Ticket ID: LT-1120. |
-| Support | Ticket update | Support ticket ST-9012 is RESOLVED. We have emailed the details. |
-| System | Maintenance notice | Scheduled maintenance on 2026-05-07 01:00-02:00 UTC. Some features may be unavailable. |
+| SGNXGOLD | Autopay status | SGNXGOLD autopay FAILED. Reason: insufficient balance. Please top up to retry. |
+| Lottery | Ticket purchased | Lottery ticket purchased. Ticket ID: LT-1120. Draw: 2026-05-31. Best of luck. |
+| Lottery | Result | Lottery result: WIN. Prize: USD 100. Ticket ID: LT-1120. Congratulations. |
+| Support | Ticket update | Support ticket ST-9012 is RESOLVED. We have emailed the details. Reply if you need more help. |
+| System | Maintenance notice | Scheduled maintenance on 2026-05-07 01:00-02:00 UTC. Some features may be unavailable. Thanks for your patience. |
 
 ## Naming and variable rules
 
@@ -79,7 +80,7 @@ These variables are used across many templates.
 | {{action_url}} | App link | https://app.sagenex.ai |
 
 Example message:
-Welcome to {{company_name}}, {{user_full_name}} ({{user_id}}). Your account is ready. Open: {{action_url}}
+Welcome to {{company_name}}, {{user_full_name}} ({{user_id}}). Your account is active and ready to use. Open your dashboard here: {{action_url}}.
 
 ### Auth: email verification OTP
 
@@ -94,7 +95,7 @@ Welcome to {{company_name}}, {{user_full_name}} ({{user_id}}). Your account is r
 | {{otp_expires_in_minutes}} | Expiry minutes | 10 |
 
 Example message:
-Your {{company_name}} verification code is {{otp_code}}. It expires in {{otp_expires_in_minutes}} minutes.
+Your {{company_name}} verification code is {{otp_code}}. Enter it to verify your account. It expires in {{otp_expires_in_minutes}} minutes.
 
 ### Auth: login OTP
 
@@ -109,7 +110,7 @@ Your {{company_name}} verification code is {{otp_code}}. It expires in {{otp_exp
 | {{otp_expires_in_minutes}} | Expiry minutes | 10 |
 
 Example message:
-Your {{company_name}} login code is {{otp_code}}. It expires in {{otp_expires_in_minutes}} minutes.
+Your {{company_name}} login code is {{otp_code}}. Use this code to sign in. It expires in {{otp_expires_in_minutes}} minutes.
 
 ### Wallet: transfer OTP
 
@@ -124,7 +125,7 @@ Your {{company_name}} login code is {{otp_code}}. It expires in {{otp_expires_in
 | {{otp_expires_in_minutes}} | Expiry minutes | 10 |
 
 Example message:
-Transfer code: {{otp_code}}. This code expires in {{otp_expires_in_minutes}} minutes. Do not share it.
+Transfer confirmation code: {{otp_code}}. Use this to confirm the transfer. It expires in {{otp_expires_in_minutes}} minutes. Do not share it.
 
 ### Security: new login alert
 
@@ -141,7 +142,7 @@ Transfer code: {{otp_code}}. This code expires in {{otp_expires_in_minutes}} min
 | {{device}} | Device name | iPhone 14 |
 
 Example message:
-Hi {{user_first_name}}, new login on {{date_time}} from {{location}} using {{device}}. If this was not you, contact support.
+Hi {{user_first_name}}, we noticed a new login on {{date_time}} from {{location}} using {{device}}. If this was not you, contact support immediately.
 
 ### Account: status update (blocked or unblocked)
 
@@ -157,7 +158,7 @@ Hi {{user_first_name}}, new login on {{date_time}} from {{location}} using {{dev
 | {{support_email}} | Support email | support@sagenex.ai |
 
 Example message:
-Your account status is {{status}}. Reason: {{reason}}. Need help? {{support_email}}
+Your account status is {{status}}. Reason: {{reason}}. If you need help, contact {{support_email}}.
 
 ### Profile: updated
 
@@ -172,7 +173,7 @@ Your account status is {{status}}. Reason: {{reason}}. Need help? {{support_emai
 | {{date_time}} | Update time | 2026-05-05 10:40 IST |
 
 Example message:
-Hi {{user_first_name}}, your profile was updated on {{date_time}}. If you did not do this, contact support.
+Hi {{user_first_name}}, your profile details were updated on {{date_time}}. If you did not make this change, contact support.
 
 ### Nominee: status update
 
@@ -188,7 +189,7 @@ Hi {{user_first_name}}, your profile was updated on {{date_time}}. If you did no
 | {{phrase_hint}} | Hint shown to user | 7Q9Z |
 
 Example message:
-Nominee access {{status}} on {{date_time}}. Hint: {{phrase_hint}}.
+Nominee access {{status}} on {{date_time}}. Your hint is {{phrase_hint}}. If this is unexpected, contact support.
 
 ### KYC: status update
 
@@ -205,7 +206,7 @@ Nominee access {{status}} on {{date_time}}. Hint: {{phrase_hint}}.
 | {{action_url}} | KYC page | https://app.sagenex.ai/kyc |
 
 Example message:
-KYC status: {{status}} on {{date_time}}. {{reason}}. Continue here: {{action_url}}
+KYC status update: {{status}} as of {{date_time}}. {{reason}}. You can review or continue here: {{action_url}}.
 
 ### Wallet: deposit status (crypto)
 
@@ -222,7 +223,7 @@ KYC status: {{status}} on {{date_time}}. {{reason}}. Continue here: {{action_url
 | {{date_time}} | Status time | 2026-05-05 12:05 IST |
 
 Example message:
-Deposit {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. Time: {{date_time}}.
+Deposit status: {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. Time: {{date_time}}. The balance will reflect this status.
 
 ### Wallet: withdrawal status
 
@@ -240,7 +241,7 @@ Deposit {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. Time: {{date_ti
 | {{reason}} | Rejection reason | Bank details invalid |
 
 Example message:
-Withdrawal {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. {{reason}}
+Withdrawal {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. {{reason}}. We will notify you on the next update.
 
 ### Wallet: transfer status (sent)
 
@@ -259,7 +260,7 @@ Withdrawal {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. {{reason}}
 | {{date_time}} | Status time | 2026-05-05 12:20 IST |
 
 Example message:
-Transfer {{status}} to {{recipient_name}} ({{recipient_id}}). Amount: {{amount}}. Ref: {{transaction_id}}.
+Transfer {{status}} to {{recipient_name}} ({{recipient_id}}). Amount: {{amount}}. Ref: {{transaction_id}}. Time: {{date_time}}.
 
 ### Wallet: transfer received
 
@@ -277,7 +278,7 @@ Transfer {{status}} to {{recipient_name}} ({{recipient_id}}). Amount: {{amount}}
 | {{date_time}} | Received time | 2026-05-05 12:20 IST |
 
 Example message:
-You received {{amount}} from {{sender_name}} ({{sender_id}}). Ref: {{transaction_id}}.
+You received {{amount}} from {{sender_name}} ({{sender_id}}). Ref: {{transaction_id}}. Time: {{date_time}}. The funds are now available.
 
 ### Wallet: balance or cap alert
 
@@ -293,7 +294,7 @@ You received {{amount}} from {{sender_name}} ({{sender_id}}). Ref: {{transaction
 | {{date_time}} | Alert time | 2026-05-05 12:30 IST |
 
 Example message:
-Alert: {{cap_type}} reached ({{amount}}) on {{date_time}}.
+Alert: {{cap_type}} reached at {{amount}} on {{date_time}}. Please review your wallet for details.
 
 ### Earnings: ROI payout credited
 
@@ -310,7 +311,7 @@ Alert: {{cap_type}} reached ({{amount}}) on {{date_time}}.
 | {{date_time}} | Credit time | 2026-05-05 01:00 IST |
 
 Example message:
-ROI credited: {{amount}} for {{cycle_label}}. New balance: {{balance}}.
+ROI credited: {{amount}} for {{cycle_label}}. New balance: {{balance}}. Posted on {{date_time}}.
 
 ### Earnings: bonus credited
 
@@ -327,7 +328,7 @@ ROI credited: {{amount}} for {{cycle_label}}. New balance: {{balance}}.
 | {{date_time}} | Credit time | 2026-05-05 12:45 IST |
 
 Example message:
-{{bonus_type}} bonus credited: {{amount}}. New balance: {{balance}}.
+{{bonus_type}} bonus credited: {{amount}}. New balance: {{balance}}. Posted on {{date_time}}.
 
 ### Earnings: bonus level unlocked
 
@@ -343,7 +344,7 @@ Example message:
 | {{date_time}} | Unlock time | 2026-05-05 13:10 IST |
 
 Example message:
-Unilevel {{bonus_level}} unlocked. Released: {{amount}}.
+Unilevel {{bonus_level}} unlocked on {{date_time}}. Released amount: {{amount}} is now available.
 
 ### Rank: upgrade
 
@@ -359,7 +360,7 @@ Unilevel {{bonus_level}} unlocked. Released: {{amount}}.
 | {{date_time}} | Change time | 2026-05-05 02:30 IST |
 
 Example message:
-Congrats. You are now {{rank_new}} (was {{rank_previous}}).
+Congratulations. Your rank has been upgraded from {{rank_previous}} to {{rank_new}} on {{date_time}}.
 
 ### Team: new referral joined
 
@@ -375,7 +376,7 @@ Congrats. You are now {{rank_new}} (was {{rank_previous}}).
 | {{date_time}} | Join time | 2026-05-05 13:20 IST |
 
 Example message:
-New referral joined: {{referral_name}} ({{referral_id}}).
+New referral joined your team: {{referral_name}} ({{referral_id}}) on {{date_time}}. Welcome them and help them get started.
 
 ### Team: placement update
 
@@ -392,7 +393,7 @@ New referral joined: {{referral_name}} ({{referral_id}}).
 | {{date_time}} | Placement time | 2026-05-05 13:22 IST |
 
 Example message:
-New team placement on {{placement_side}}: {{placed_user_name}} ({{placed_user_id}}).
+Placement update on {{date_time}}: {{placed_user_name}} ({{placed_user_id}}) placed on {{placement_side}} side of your team.
 
 ### Team: milestone
 
@@ -408,7 +409,7 @@ New team placement on {{placement_side}}: {{placed_user_name}} ({{placed_user_id
 | {{date_time}} | Milestone time | 2026-05-05 13:30 IST |
 
 Example message:
-Milestone reached: {{milestone_name}} ({{milestone_value}}).
+Milestone reached: {{milestone_name}} ({{milestone_value}}) on {{date_time}}. Great work and keep the momentum.
 
 ### SGChain: transfer status
 
@@ -426,7 +427,7 @@ Milestone reached: {{milestone_name}} ({{milestone_value}}).
 | {{date_time}} | Status time | 2026-05-05 13:40 IST |
 
 Example message:
-SGChain transfer {{status}}. Amount: {{amount}}. Code: {{sgchain_code}}.
+SGChain transfer {{status}}. Amount: {{amount}}. Code: {{sgchain_code}}. Ref: {{transaction_id}}. Time: {{date_time}}.
 
 ### SGBN: coupon status
 
@@ -460,7 +461,7 @@ SGBN coupon {{status}}. Code: {{coupon_code}}. Amount: {{amount}}. Expires: {{ex
 | {{reason}} | Failure reason | Insufficient balance |
 
 Example message:
-SGGOLD autopay {{status}}. Amount: {{amount}}. Due: {{due_date}}. {{reason}}
+SGGOLD autopay {{status}}. Amount: {{amount}}. Due date: {{due_date}}. {{reason}}
 
 ### SGNXGOLD: autopay status
 
@@ -477,7 +478,7 @@ SGGOLD autopay {{status}}. Amount: {{amount}}. Due: {{due_date}}. {{reason}}
 | {{date_time}} | Run time | 2026-05-05 01:05 IST |
 
 Example message:
-SGNXGOLD autopay {{status}}. Amount: {{amount}}. {{reason}}
+SGNXGOLD autopay {{status}}. Amount: {{amount}}. Time: {{date_time}}. {{reason}}
 
 ### LP: liquidity pool status
 
@@ -495,7 +496,7 @@ SGNXGOLD autopay {{status}}. Amount: {{amount}}. {{reason}}
 | {{reason}} | Denial reason | Yield in progress |
 
 Example message:
-LP status: {{status}}. Amount: {{amount}}. Request: {{request_id}}.
+LP update: {{status}}. Amount: {{amount}}. Request: {{request_id}}. Time: {{date_time}}. {{reason}}
 
 ### Courses: status
 
@@ -512,7 +513,7 @@ LP status: {{status}}. Amount: {{amount}}. Request: {{request_id}}.
 | {{date_time}} | Status time | 2026-05-05 14:20 IST |
 
 Example message:
-Course {{status}}: {{course_title}} ({{course_id}}).
+Course {{status}}: {{course_title}} ({{course_id}}) on {{date_time}}. Log in to continue.
 
 ### Lottery: OTP for purchase
 
@@ -527,7 +528,7 @@ Course {{status}}: {{course_title}} ({{course_id}}).
 | {{otp_expires_in_minutes}} | Expiry minutes | 10 |
 
 Example message:
-Lottery OTP: {{otp_code}}. Expires in {{otp_expires_in_minutes}} minutes.
+Lottery purchase OTP: {{otp_code}}. It expires in {{otp_expires_in_minutes}} minutes. Do not share this code.
 
 ### Lottery: ticket purchased
 
@@ -543,7 +544,7 @@ Lottery OTP: {{otp_code}}. Expires in {{otp_expires_in_minutes}} minutes.
 | {{amount}} | Ticket amount | USD 5.00 |
 
 Example message:
-Lottery ticket purchased. Ticket: {{ticket_id}}. Draw: {{draw_date}}.
+Lottery ticket purchased. Ticket: {{ticket_id}}. Draw date: {{draw_date}}. Amount: {{amount}}.
 
 ### Lottery: result
 
@@ -560,7 +561,7 @@ Lottery ticket purchased. Ticket: {{ticket_id}}. Draw: {{draw_date}}.
 | {{draw_date}} | Draw date | 2026-05-31 |
 
 Example message:
-Lottery result: {{result}}. Prize: {{prize_amount}}. Ticket: {{ticket_id}}.
+Lottery result: {{result}}. Prize: {{prize_amount}}. Ticket: {{ticket_id}}. Draw date: {{draw_date}}.
 
 ### Tests: booking OTP
 
@@ -593,7 +594,7 @@ Test booking OTP: {{otp_code}} for {{test_type}}. Amount: {{amount}}. Expires in
 | {{date_time}} | Update time | 2026-05-05 15:00 IST |
 
 Example message:
-Tickets updated. Total: {{ticket_count}}. Amount: {{amount}}.
+Tickets updated on {{date_time}}. Total: {{ticket_count}}. Amount: {{amount}}.
 
 ### Rewards: claim status
 
@@ -610,7 +611,7 @@ Tickets updated. Total: {{ticket_count}}. Amount: {{amount}}.
 | {{reason}} | Rejection reason | Eligibility not met |
 
 Example message:
-Reward {{reward_name}} claim {{status}}. {{reason}}
+Reward claim for {{reward_name}} is {{status}} on {{date_time}}. {{reason}}
 
 ### Support: ticket status
 
@@ -627,7 +628,7 @@ Reward {{reward_name}} claim {{status}}. {{reason}}
 | {{action_url}} | Ticket link | https://app.sagenex.ai/support |
 
 Example message:
-Support ticket {{ticket_id}} is {{status}}. Details: {{action_url}}
+Support ticket {{ticket_id}} is {{status}} as of {{date_time}}. Details: {{action_url}}
 
 ### System: announcement
 
@@ -643,7 +644,7 @@ Support ticket {{ticket_id}} is {{status}}. Details: {{action_url}}
 | {{action_url}} | Link | https://app.sagenex.ai/updates |
 
 Example message:
-{{title}}: {{message}} Learn more: {{action_url}}
+{{title}}: {{message}} For more details, visit {{action_url}}.
 
 ### System: maintenance notice
 
@@ -659,7 +660,7 @@ Example message:
 | {{impact}} | Impact text | Some features may be unavailable |
 
 Example message:
-Scheduled maintenance {{start_time}} to {{end_time}}. {{impact}}.
+Scheduled maintenance from {{start_time}} to {{end_time}}. {{impact}}. Thank you for your patience.
 
 ## WhatsApp placeholder mapping (implementation note)
 
