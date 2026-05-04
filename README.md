@@ -1,650 +1,671 @@
 # WhatsApp Notification Catalog (Sagenex)
 
-## Global Variables (available for all templates)
-- {{app_name}}: "Sagenex"
-- {{support_email}}: Support email address
-- {{support_phone}}: Support phone number (if available)
-- {{support_whatsapp}}: Support WhatsApp number (if available)
-- {{portal_url}}: Main app URL
-- {{help_center_url}}: Help/FAQ URL
-- {{timestamp}}: ISO timestamp of the event
-- {{timezone}}: User timezone (if known)
 
-## User Identity Variables
-- {{user_id}}
-- {{full_name}}
-- {{first_name}}
-- {{email}}
-- {{phone_e164}}
-- {{country}}
-- {{language}}
+## Quick examples (non-technical)
 
-## Security and Authentication
+The table below shows example messages with real values filled in. These are examples only and can be customized.
 
-### 1) auth_email_otp
-- Category: AUTHENTICATION
+| Category | Notification | Example message |
+| --- | --- | --- |
+| Account | Welcome | Welcome to Sagenex, Amit Sharma (U042). Your account is ready. |
+| Auth | Email verification OTP | Your Sagenex verification code is 381204. It expires in 10 minutes. |
+| Auth | Login OTP | Your Sagenex login code is 904117. It expires in 10 minutes. |
+| Wallet | Transfer OTP | Transfer code: 552091. Do not share this code with anyone. |
+| KYC | KYC submitted | We received your KYC documents on 2026-05-05 10:30 IST. Status: PENDING. |
+| KYC | KYC approved | Your KYC is VERIFIED. Thank you, Amit. |
+| KYC | KYC rejected | Your KYC is REJECTED. Reason: PAN image not clear. Please resubmit. |
+| Wallet | Deposit status | Deposit of USD 250.00 is CONFIRMED. Txn ID: DPT-93841. |
+| Wallet | Withdrawal status | Withdrawal of INR 25,000 is PROCESSING. Ref: WD-1183. |
+| Wallet | Transfer sent | You sent USD 100.00 to Riya Kapoor (U389). Txn ID: TR-22091. |
+| Wallet | Transfer received | You received USD 100.00 from Amit Sharma (U042). Txn ID: TR-22091. |
+| Earnings | ROI payout | ROI credited: USD 18.25 for cycle Apr 2026. New balance: USD 410.60. |
+| Earnings | Bonus credited | Direct bonus credited: USD 12.00. New balance: USD 422.60. |
+| Earnings | Bonus unlocked | Unilevel L3 bonus is now unlocked. Locked amount USD 50.00 is released. |
+| Rank | Rank upgrade | Congrats. You are now Builder Plus (was Builder). |
+| Team | New referral | New referral joined: Priya Singh (U512). Sponsor: Amit Sharma. |
+| Team | Placement update | New team member placed under you on Left. Member: U512. |
+| SGChain | Transfer status | SGChain transfer INITIATED. Code: SG-9R2K1. Amount: USD 75.00. |
+| SGBN | Coupon status | SGBN coupon created: SGBN-7F21. Amount: USD 200.00. Expires: 2026-06-01. |
+| LP | Liquidity pool | LP deposit of USD 500.00 is CONFIRMED. Request ID: LP-4021. |
+| SGGOLD | Autopay status | SGGOLD autopay SUCCESS. Amount: USD 40.00. Due date: 2026-05-10. |
+| SGNXGOLD | Autopay status | SGNXGOLD autopay FAILED. Reason: insufficient balance. |
+| Lottery | Ticket purchased | Lottery ticket purchased. Ticket ID: LT-1120. Draw: 2026-05-31. |
+| Lottery | Result | Lottery result: WIN. Prize: USD 100. Ticket ID: LT-1120. |
+| Support | Ticket update | Support ticket ST-9012 is RESOLVED. We have emailed the details. |
+| System | Maintenance notice | Scheduled maintenance on 2026-05-07 01:00-02:00 UTC. Some features may be unavailable. |
+
+## Naming and variable rules
+
+- Template keys are snake_case and stable. Example: `wallet_withdrawal_status`.
+- Variable placeholders use double braces in this document, e.g., `{{user_full_name}}`.
+- WhatsApp templates use numbered placeholders (e.g., `{{1}}`, `{{2}}`). Map the named variables to numbers in code.
+- All amounts should be formatted with currency (USD, INR, USDT).
+- All dates should include timezone (example: 2026-05-05 10:30 IST).
+
+## Variable glossary (common)
+
+These variables are used across many templates.
+
+| Variable | Meaning | Example value |
+| --- | --- | --- |
+| {{company_name}} | Brand name | Sagenex |
+| {{user_full_name}} | User full name | Amit Sharma |
+| {{user_first_name}} | First name | Amit |
+| {{user_id}} | User ID | U042 |
+| {{support_email}} | Support email | support@sagenex.ai |
+| {{support_phone}} | Support phone | +91-90000-00000 |
+| {{support_whatsapp}} | Support WhatsApp | +91-90000-00000 |
+| {{date_time}} | Date and time with timezone | 2026-05-05 10:30 IST |
+| {{amount}} | Money amount with currency | USD 250.00 |
+| {{balance}} | Current balance | USD 410.60 |
+| {{status}} | Current status | CONFIRMED |
+| {{reason}} | Reason text | PAN image not clear |
+| {{transaction_id}} | Transaction reference | TR-22091 |
+| {{action_url}} | Link to app or web | https://app.sagenex.ai |
+
+## Notification catalog (detailed)
+
+### Account: welcome
+
+- Template key: `account_welcome`
+- Category: Utility
 - Audience: User
-- Description: Email verification OTP (also used for login OTP)
-- Trigger: OTP generated for email verification or login
-- Variables:
-  - {{otp_code}}
-  - {{otp_valid_minutes}}
-  - {{requested_for}} ("signup", "login")
-  - {{email}}
-- Sample:
-  "Your Sagenex verification code is {{otp_code}}. It expires in {{otp_valid_minutes}} minutes."
+- Trigger: User registration completed.
 
-### 2) auth_password_changed
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{user_full_name}} | User full name | Amit Sharma |
+| {{user_id}} | User ID | U042 |
+| {{action_url}} | App link | https://app.sagenex.ai |
+
+Example message:
+Welcome to {{company_name}}, {{user_full_name}} ({{user_id}}). Your account is ready. Open: {{action_url}}
+
+### Auth: email verification OTP
+
+- Template key: `auth_otp_email_verification`
+- Category: Authentication
 - Audience: User
-- Description: Password set or changed
-- Trigger: User sets or changes password
-- Variables:
-  - {{full_name}}
-  - {{change_method}} ("self", "admin", "reset")
-  - {{timestamp}}
-- Sample:
-  "Your Sagenex password was updated on {{timestamp}}. If this was not you, contact support."
+- Trigger: Email verification OTP requested.
 
-### 3) auth_account_blocked
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{otp_code}} | One-time code | 381204 |
+| {{otp_expires_in_minutes}} | Expiry minutes | 10 |
+
+Example message:
+Your {{company_name}} verification code is {{otp_code}}. It expires in {{otp_expires_in_minutes}} minutes.
+
+### Auth: login OTP
+
+- Template key: `auth_otp_login`
+- Category: Authentication
 - Audience: User
-- Description: Account blocked
-- Trigger: Admin blocks user
-- Variables:
-  - {{full_name}}
-  - {{blocked_reason}}
-  - {{support_email}}
-- Sample:
-  "Your account was blocked. Reason: {{blocked_reason}}. Contact {{support_email}}."
+- Trigger: Login OTP requested.
 
-### 4) auth_account_unblocked
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{otp_code}} | One-time code | 904117 |
+| {{otp_expires_in_minutes}} | Expiry minutes | 10 |
+
+Example message:
+Your {{company_name}} login code is {{otp_code}}. It expires in {{otp_expires_in_minutes}} minutes.
+
+### Wallet: transfer OTP
+
+- Template key: `wallet_otp_transfer`
+- Category: Authentication
 - Audience: User
-- Description: Account unblocked
-- Trigger: Admin unblocks user
-- Variables:
-  - {{full_name}}
-  - {{timestamp}}
-- Sample:
-  "Your account access was restored on {{timestamp}}."
+- Trigger: Transfer OTP requested.
 
-### 5) auth_impersonation_started
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{otp_code}} | One-time code | 552091 |
+| {{otp_expires_in_minutes}} | Expiry minutes | 10 |
+
+Example message:
+Transfer code: {{otp_code}}. This code expires in {{otp_expires_in_minutes}} minutes. Do not share it.
+
+### Security: new login alert
+
+- Template key: `security_new_login`
+- Category: Utility
 - Audience: User
-- Description: Admin starts impersonation
-- Trigger: Admin login assist begins
-- Variables:
-  - {{admin_id}}
-  - {{timestamp}}
-- Sample:
-  "An admin accessed your account for support on {{timestamp}} (Admin ID: {{admin_id}})."
+- Trigger: Successful login from a device or IP.
 
-### 6) auth_impersonation_stopped
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{user_first_name}} | First name | Amit |
+| {{date_time}} | Login time | 2026-05-05 10:30 IST |
+| {{location}} | Approx location | Bengaluru, IN |
+| {{device}} | Device name | iPhone 14 |
+
+Example message:
+Hi {{user_first_name}}, new login on {{date_time}} from {{location}} using {{device}}. If this was not you, contact support.
+
+### Account: status update (blocked or unblocked)
+
+- Template key: `account_status_update`
+- Category: Utility
 - Audience: User
-- Description: Admin stops impersonation
-- Trigger: Admin stops impersonation
-- Variables:
-  - {{admin_id}}
-  - {{timestamp}}
+- Trigger: Account blocked or unblocked.
 
-## KYC
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | BLOCKED or UNBLOCKED | BLOCKED |
+| {{reason}} | Reason | KYC verification pending |
+| {{support_email}} | Support email | support@sagenex.ai |
 
-### 7) kyc_submitted
-- Category: UTILITY
+Example message:
+Your account status is {{status}}. Reason: {{reason}}. Need help? {{support_email}}
+
+### Profile: updated
+
+- Template key: `profile_updated`
+- Category: Utility
 - Audience: User
-- Description: KYC submitted for review
-- Trigger: KYC submit for review
-- Variables:
-  - {{full_name}}
-  - {{kyc_status}} ("PENDING")
-  - {{timestamp}}
+- Trigger: Profile updated (email/phone/name).
 
-### 8) kyc_verified
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{user_first_name}} | First name | Amit |
+| {{date_time}} | Update time | 2026-05-05 10:40 IST |
+
+Example message:
+Hi {{user_first_name}}, your profile was updated on {{date_time}}. If you did not do this, contact support.
+
+### Nominee: status update
+
+- Template key: `nominee_status_update`
+- Category: Utility
 - Audience: User
-- Description: KYC approved
-- Trigger: KYC verified
-- Variables:
-  - {{full_name}}
-  - {{verified_at}}
+- Trigger: Nominee access enabled, reset, or disabled.
 
-### 9) kyc_rejected
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | ENABLED, RESET, DISABLED | ENABLED |
+| {{date_time}} | Change time | 2026-05-05 11:10 IST |
+| {{phrase_hint}} | Hint shown to user | 7Q9Z |
+
+Example message:
+Nominee access {{status}} on {{date_time}}. Hint: {{phrase_hint}}.
+
+### KYC: status update
+
+- Template key: `kyc_status_update`
+- Category: Utility
 - Audience: User
-- Description: KYC rejected
-- Trigger: KYC rejected
-- Variables:
-  - {{full_name}}
-  - {{rejection_reason}}
-  - {{resubmit_url}}
+- Trigger: KYC status changed or submitted.
 
-## Referrals and Team (Tree)
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | NOT_SUBMITTED, PENDING, VERIFIED, REJECTED | PENDING |
+| {{reason}} | Rejection reason (if any) | PAN image not clear |
+| {{date_time}} | Change time | 2026-05-05 10:30 IST |
+| {{action_url}} | KYC page | https://app.sagenex.ai/kyc |
 
-### 10) referral_direct_joined
-- Category: UTILITY
-- Audience: Sponsor (parent)
-- Description: A new direct referral joined under the sponsor
-- Trigger: New user registration linked to sponsor
-- Variables:
-  - {{sponsor_name}}
-  - {{new_member_name}}
-  - {{new_member_user_id}}
-  - {{join_date}}
+Example message:
+KYC status: {{status}} on {{date_time}}. {{reason}}. Continue here: {{action_url}}
 
-### 11) referral_placed_in_team
-- Category: UTILITY
-- Audience: Sponsor or upline
-- Description: A new user was placed in the downline (if placement logic exists)
-- Trigger: Placement action
-- Variables:
-  - {{sponsor_name}}
-  - {{new_member_name}}
-  - {{placement_position}}
-  - {{level_depth}}
+### Wallet: deposit status (crypto)
 
-### 12) referral_nominee_login
-- Category: UTILITY
+- Template key: `wallet_deposit_status`
+- Category: Utility
 - Audience: User
-- Description: Nominee access used
-- Trigger: Nominee login
-- Variables:
-  - {{timestamp}}
-  - {{ip_address}}
+- Trigger: Crypto deposit created or updated.
 
-## Rank, Multiplier, and Bonuses
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | CREATED, CONFIRMED, FAILED, REFUNDED, EXPIRED | CONFIRMED |
+| {{amount}} | Deposit amount | USD 250.00 |
+| {{transaction_id}} | Deposit reference | DPT-93841 |
+| {{date_time}} | Status time | 2026-05-05 12:05 IST |
 
-### 13) rank_upgraded
-- Category: UTILITY
+Example message:
+Deposit {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. Time: {{date_time}}.
+
+### Wallet: withdrawal status
+
+- Template key: `wallet_withdrawal_status`
+- Category: Utility
 - Audience: User
-- Description: Rank or multiplier upgraded (builder -> higher level)
-- Trigger: Rank update or promotion job
-- Variables:
-  - {{full_name}}
-  - {{old_rank}}
-  - {{new_rank}}
-  - {{achieved_at}}
-  - {{earnings_multiplier}}
+- Trigger: Withdrawal requested or status updated.
 
-### 14) rank_downgraded
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | REQUESTED, PROCESSING, PAID, REJECTED, CANCELED | PROCESSING |
+| {{amount}} | Withdrawal amount | INR 25,000 |
+| {{transaction_id}} | Withdrawal reference | WD-1183 |
+| {{date_time}} | Status time | 2026-05-05 12:15 IST |
+| {{reason}} | Rejection reason | Bank details invalid |
+
+Example message:
+Withdrawal {{status}}. Amount: {{amount}}. Ref: {{transaction_id}}. {{reason}}
+
+### Wallet: transfer status (sent)
+
+- Template key: `wallet_transfer_status`
+- Category: Utility
 - Audience: User
-- Description: Rank downgraded (if applicable)
-- Trigger: Rank update job
-- Variables:
-  - {{full_name}}
-  - {{old_rank}}
-  - {{new_rank}}
-  - {{reason}}
+- Trigger: Transfer sent or status updated for sender.
 
-### 15) bonus_unlocked
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | SENT, FAILED, REVERSED | SENT |
+| {{amount}} | Transfer amount | USD 100.00 |
+| {{transaction_id}} | Transfer reference | TR-22091 |
+| {{recipient_name}} | Recipient name | Riya Kapoor |
+| {{recipient_id}} | Recipient ID | U389 |
+| {{date_time}} | Status time | 2026-05-05 12:20 IST |
+
+Example message:
+Transfer {{status}} to {{recipient_name}} ({{recipient_id}}). Amount: {{amount}}. Ref: {{transaction_id}}.
+
+### Wallet: transfer received
+
+- Template key: `wallet_transfer_received`
+- Category: Utility
 - Audience: User
-- Description: Unilevel or direct bonus unlocked
-- Trigger: Bonus unlock logic
-- Variables:
-  - {{bonus_name}}
-  - {{bonus_level}}
-  - {{amount}}
-  - {{timestamp}}
+- Trigger: Transfer received by recipient.
 
-### 16) bonus_credited
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{amount}} | Transfer amount | USD 100.00 |
+| {{transaction_id}} | Transfer reference | TR-22091 |
+| {{sender_name}} | Sender name | Amit Sharma |
+| {{sender_id}} | Sender ID | U042 |
+| {{date_time}} | Received time | 2026-05-05 12:20 IST |
+
+Example message:
+You received {{amount}} from {{sender_name}} ({{sender_id}}). Ref: {{transaction_id}}.
+
+### Wallet: balance or cap alert
+
+- Template key: `wallet_cap_alert`
+- Category: Utility
 - Audience: User
-- Description: Bonus credited to wallet
-- Trigger: Bonus posting
-- Variables:
-  - {{bonus_type}} ("direct", "unilevel", "reinvestment")
-  - {{amount}}
-  - {{wallet_balance}}
+- Trigger: Earnings cap or withdrawal cap reached.
 
-### 17) roi_payout_processed
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{cap_type}} | EARNINGS_CAP or WITHDRAWAL_CAP | EARNINGS_CAP |
+| {{amount}} | Cap amount | USD 2,500.00 |
+| {{date_time}} | Alert time | 2026-05-05 12:30 IST |
+
+Example message:
+Alert: {{cap_type}} reached ({{amount}}) on {{date_time}}.
+
+### Earnings: ROI payout credited
+
+- Template key: `roi_payout_credited`
+- Category: Utility
 - Audience: User
-- Description: ROI payout processed
-- Trigger: ROI payout job
-- Variables:
-  - {{amount}}
-  - {{payout_date}}
-  - {{wallet_balance}}
+- Trigger: ROI payout job credits wallet.
 
-### 18) earnings_cap_near
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{amount}} | ROI amount | USD 18.25 |
+| {{cycle_label}} | Payout cycle | Apr 2026 |
+| {{balance}} | New balance | USD 410.60 |
+| {{date_time}} | Credit time | 2026-05-05 01:00 IST |
+
+Example message:
+ROI credited: {{amount}} for {{cycle_label}}. New balance: {{balance}}.
+
+### Earnings: bonus credited
+
+- Template key: `bonus_credited`
+- Category: Utility
 - Audience: User
-- Description: Earnings cap near limit (threshold based)
-- Trigger: Post-earnings check
-- Variables:
-  - {{cap_total}}
-  - {{cap_remaining}}
-  - {{threshold_percent}}
+- Trigger: Bonus credit applied.
 
-### 19) earnings_cap_reached
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{bonus_type}} | DIRECT, UNILEVEL, REINVESTMENT | DIRECT |
+| {{amount}} | Bonus amount | USD 12.00 |
+| {{balance}} | New balance | USD 422.60 |
+| {{date_time}} | Credit time | 2026-05-05 12:45 IST |
+
+Example message:
+{{bonus_type}} bonus credited: {{amount}}. New balance: {{balance}}.
+
+### Earnings: bonus level unlocked
+
+- Template key: `bonus_level_unlocked`
+- Category: Utility
 - Audience: User
-- Description: Earnings cap reached
-- Trigger: Post-earnings check
-- Variables:
-  - {{cap_total}}
-  - {{earned_total}}
+- Trigger: Locked bonus level becomes unlocked.
 
-## Wallet, Deposits, and Withdrawals
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{bonus_level}} | Bonus level | L3 |
+| {{amount}} | Released amount | USD 50.00 |
+| {{date_time}} | Unlock time | 2026-05-05 13:10 IST |
 
-### 20) deposit_invoice_created
-- Category: UTILITY
+Example message:
+Unilevel {{bonus_level}} unlocked. Released: {{amount}}.
+
+### Rank: upgrade
+
+- Template key: `rank_upgrade`
+- Category: Utility
 - Audience: User
-- Description: Crypto deposit invoice created
-- Trigger: Create crypto deposit invoice
-- Variables:
-  - {{amount}}
-  - {{currency}}
-  - {{invoice_id}}
-  - {{payment_address}}
-  - {{expires_at}}
+- Trigger: Rank changes upward.
 
-### 21) deposit_confirmed
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{rank_previous}} | Old rank | Builder |
+| {{rank_new}} | New rank | Builder Plus |
+| {{date_time}} | Change time | 2026-05-05 02:30 IST |
+
+Example message:
+Congrats. You are now {{rank_new}} (was {{rank_previous}}).
+
+### Team: new referral joined
+
+- Template key: `referral_joined`
+- Category: Utility
 - Audience: User
-- Description: Deposit confirmed
-- Trigger: Deposit webhook confirms
-- Variables:
-  - {{amount}}
-  - {{currency}}
-  - {{tx_id}}
-  - {{wallet_balance}}
+- Trigger: New user joins with you as sponsor.
 
-### 22) deposit_failed
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{referral_name}} | Referral name | Priya Singh |
+| {{referral_id}} | Referral ID | U512 |
+| {{date_time}} | Join time | 2026-05-05 13:20 IST |
+
+Example message:
+New referral joined: {{referral_name}} ({{referral_id}}).
+
+### Team: placement update
+
+- Template key: `placement_update`
+- Category: Utility
 - Audience: User
-- Description: Deposit failed or expired
-- Trigger: Deposit webhook status failed/refunded/expired
-- Variables:
-  - {{amount}}
-  - {{currency}}
-  - {{reason}}
+- Trigger: New team member placed under user.
 
-### 23) withdrawal_requested
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{placed_user_name}} | Placed user name | Priya Singh |
+| {{placed_user_id}} | Placed user ID | U512 |
+| {{placement_side}} | Left or Right | Left |
+| {{date_time}} | Placement time | 2026-05-05 13:22 IST |
+
+Example message:
+New team placement on {{placement_side}}: {{placed_user_name}} ({{placed_user_id}}).
+
+### Team: milestone
+
+- Template key: `team_milestone`
+- Category: Utility
 - Audience: User
-- Description: Withdrawal request submitted
-- Trigger: Withdrawal request created
-- Variables:
-  - {{amount}}
-  - {{method}} ("crypto", "bank", "upi")
-  - {{request_id}}
-  - {{timestamp}}
+- Trigger: Team milestone reached (active legs, depth, or volume).
 
-### 24) withdrawal_approved
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{milestone_name}} | Milestone name | 10 Active Legs |
+| {{milestone_value}} | Value | 10 |
+| {{date_time}} | Milestone time | 2026-05-05 13:30 IST |
+
+Example message:
+Milestone reached: {{milestone_name}} ({{milestone_value}}).
+
+### SGChain: transfer status
+
+- Template key: `sgchain_transfer_status`
+- Category: Utility
 - Audience: User
-- Description: Withdrawal approved by admin
-- Trigger: Admin approval
-- Variables:
-  - {{amount}}
-  - {{method}}
-  - {{approved_at}}
+- Trigger: Transfer to or from SGChain updated.
 
-### 25) withdrawal_paid
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | INITIATED, REDEEMED, FAILED | INITIATED |
+| {{amount}} | Transfer amount | USD 75.00 |
+| {{sgchain_code}} | Transfer code | SG-9R2K1 |
+| {{transaction_id}} | Reference | SG-4412 |
+| {{date_time}} | Status time | 2026-05-05 13:40 IST |
+
+Example message:
+SGChain transfer {{status}}. Amount: {{amount}}. Code: {{sgchain_code}}.
+
+### SGBN: coupon status
+
+- Template key: `sgbn_coupon_status`
+- Category: Utility
 - Audience: User
-- Description: Withdrawal paid out
-- Trigger: Payout processed
-- Variables:
-  - {{amount}}
-  - {{method}}
-  - {{tx_id}}
-  - {{paid_at}}
+- Trigger: SGBN coupon created, redeemed, or expired.
 
-### 26) withdrawal_rejected
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | CREATED, REDEEMED, EXPIRED | CREATED |
+| {{amount}} | Coupon amount | USD 200.00 |
+| {{coupon_code}} | Coupon code | SGBN-7F21 |
+| {{expiry_date}} | Expiry date | 2026-06-01 |
+
+Example message:
+SGBN coupon {{status}}. Code: {{coupon_code}}. Amount: {{amount}}. Expires: {{expiry_date}}.
+
+### SGGOLD: autopay status
+
+- Template key: `sggold_autopay_status`
+- Category: Utility
 - Audience: User
-- Description: Withdrawal rejected
-- Trigger: Admin rejection
-- Variables:
-  - {{amount}}
-  - {{reason}}
-  - {{support_email}}
+- Trigger: SGGOLD autopay run.
 
-### 27) transfer_sent
-- Category: UTILITY
-- Audience: Sender
-- Description: User-to-user transfer sent
-- Trigger: Transfer execution success
-- Variables:
-  - {{amount}}
-  - {{recipient_id}}
-  - {{recipient_name}}
-  - {{transaction_id}}
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | SUCCESS, FAILED | SUCCESS |
+| {{amount}} | Payment amount | USD 40.00 |
+| {{due_date}} | Due date | 2026-05-10 |
+| {{reason}} | Failure reason | Insufficient balance |
 
-### 28) transfer_received
-- Category: UTILITY
-- Audience: Recipient
-- Description: User-to-user transfer received
-- Trigger: Transfer execution success
-- Variables:
-  - {{amount}}
-  - {{sender_id}}
-  - {{sender_name}}
-  - {{transaction_id}}
+Example message:
+SGGOLD autopay {{status}}. Amount: {{amount}}. Due: {{due_date}}. {{reason}}
 
-### 29) transfer_failed
-- Category: UTILITY
-- Audience: Sender
-- Description: Transfer failed
-- Trigger: Transfer execution failed
-- Variables:
-  - {{amount}}
-  - {{recipient_id}}
-  - {{reason}}
+### SGNXGOLD: autopay status
 
-### 30) wallet_low_balance
-- Category: UTILITY
+- Template key: `sgnxgold_autopay_status`
+- Category: Utility
 - Audience: User
-- Description: Balance below threshold
-- Trigger: Periodic check
-- Variables:
-  - {{available_balance}}
-  - {{threshold}}
+- Trigger: SGNXGOLD autopay run.
 
-### 31) wallet_credit
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | SUCCESS, FAILED | FAILED |
+| {{amount}} | Payment amount | USD 25.00 |
+| {{reason}} | Failure reason | Insufficient balance |
+| {{date_time}} | Run time | 2026-05-05 01:05 IST |
+
+Example message:
+SGNXGOLD autopay {{status}}. Amount: {{amount}}. {{reason}}
+
+### LP: liquidity pool status
+
+- Template key: `lp_pool_status`
+- Category: Utility
 - Audience: User
-- Description: Any wallet credit
-- Trigger: Ledger credit posted
-- Variables:
-  - {{amount}}
-  - {{source}}
-  - {{wallet_balance}}
+- Trigger: LP deposit or withdrawal request and updates.
 
-### 32) wallet_debit
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | DEPOSIT_CONFIRMED, WITHDRAWAL_REQUESTED, WITHDRAWAL_PROCESSED, EARLY_WITHDRAWAL_REQUESTED, EARLY_WITHDRAWAL_APPROVED, EARLY_WITHDRAWAL_DENIED | WITHDRAWAL_REQUESTED |
+| {{amount}} | Amount | USD 500.00 |
+| {{request_id}} | Request ID | LP-4021 |
+| {{date_time}} | Status time | 2026-05-05 14:10 IST |
+| {{reason}} | Denial reason | Yield in progress |
+
+Example message:
+LP status: {{status}}. Amount: {{amount}}. Request: {{request_id}}.
+
+### Courses: status
+
+- Template key: `course_status`
+- Category: Utility
 - Audience: User
-- Description: Any wallet debit
-- Trigger: Ledger debit posted
-- Variables:
-  - {{amount}}
-  - {{reason}}
-  - {{wallet_balance}}
+- Trigger: Course enrollment or completion.
 
-## Package and Plan Events
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | ENROLLED, COMPLETED | ENROLLED |
+| {{course_title}} | Course name | Sagenex Basics |
+| {{course_id}} | Course ID | CR-110 |
+| {{date_time}} | Status time | 2026-05-05 14:20 IST |
 
-### 33) package_activated
-- Category: UTILITY
+Example message:
+Course {{status}}: {{course_title}} ({{course_id}}).
+
+### Lottery: OTP for purchase
+
+- Template key: `lottery_otp_purchase`
+- Category: Authentication
 - Audience: User
-- Description: Package activated
-- Trigger: Package activation
-- Variables:
-  - {{package_usd}}
-  - {{activation_date}}
-  - {{earnings_multiplier}}
+- Trigger: Lottery ticket OTP requested.
 
-### 34) package_upgraded
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{otp_code}} | One-time code | 231990 |
+| {{otp_expires_in_minutes}} | Expiry minutes | 10 |
+
+Example message:
+Lottery OTP: {{otp_code}}. Expires in {{otp_expires_in_minutes}} minutes.
+
+### Lottery: ticket purchased
+
+- Template key: `lottery_ticket_purchased`
+- Category: Utility
 - Audience: User
-- Description: Package upgraded
-- Trigger: Package upgrade
-- Variables:
-  - {{old_package_usd}}
-  - {{new_package_usd}}
-  - {{upgrade_date}}
+- Trigger: Lottery ticket purchased.
 
-### 35) package_deactivated
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{ticket_id}} | Ticket ID | LT-1120 |
+| {{draw_date}} | Draw date | 2026-05-31 |
+| {{amount}} | Ticket amount | USD 5.00 |
+
+Example message:
+Lottery ticket purchased. Ticket: {{ticket_id}}. Draw: {{draw_date}}.
+
+### Lottery: result
+
+- Template key: `lottery_result`
+- Category: Utility
 - Audience: User
-- Description: Package deactivated/inactive
-- Trigger: Package deactivation
-- Variables:
-  - {{reason}}
-  - {{effective_date}}
+- Trigger: Lottery draw result.
 
-### 36) compounding_toggled
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{result}} | WIN or LOSE | WIN |
+| {{prize_amount}} | Prize amount | USD 100.00 |
+| {{ticket_id}} | Ticket ID | LT-1120 |
+| {{draw_date}} | Draw date | 2026-05-31 |
+
+Example message:
+Lottery result: {{result}}. Prize: {{prize_amount}}. Ticket: {{ticket_id}}.
+
+### Tests: booking OTP
+
+- Template key: `test_booking_otp`
+- Category: Authentication
 - Audience: User
-- Description: Compounding toggled
-- Trigger: Compounding toggle
-- Variables:
-  - {{compounding_enabled}}
-  - {{timestamp}}
+- Trigger: Test booking OTP requested.
 
-## SGChain / SGBN / SGGOLD / SGNX Gold
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{otp_code}} | One-time code | 778421 |
+| {{otp_expires_in_minutes}} | Expiry minutes | 10 |
+| {{test_type}} | Test type | Health Screening |
+| {{amount}} | Booking amount | USD 15.00 |
 
-### 37) sgchain_transfer_initiated
-- Category: UTILITY
+Example message:
+Test booking OTP: {{otp_code}} for {{test_type}}. Amount: {{amount}}. Expires in {{otp_expires_in_minutes}} minutes.
+
+### Tickets: status update
+
+- Template key: `tickets_status_update`
+- Category: Utility
 - Audience: User
-- Description: Transfer to SGChain initiated
-- Trigger: SGChain transfer initiation
-- Variables:
-  - {{amount}}
-  - {{transfer_code}}
-  - {{expires_at}}
+- Trigger: Ticket balance or purchase update.
 
-### 38) sgchain_transfer_redeemed
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{ticket_count}} | Total tickets | 12 |
+| {{amount}} | Related amount | USD 20.00 |
+| {{date_time}} | Update time | 2026-05-05 15:00 IST |
+
+Example message:
+Tickets updated. Total: {{ticket_count}}. Amount: {{amount}}.
+
+### Rewards: claim status
+
+- Template key: `rewards_claim_status`
+- Category: Utility
 - Audience: User
-- Description: Transfer from SGChain redeemed
-- Trigger: SGChain redeem
-- Variables:
-  - {{amount}}
-  - {{wallet_balance}}
+- Trigger: Reward claim submitted or updated.
 
-### 39) sgbn_coupon_created
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{status}} | SUBMITTED, APPROVED, REJECTED, SHIPPED | APPROVED |
+| {{reward_name}} | Reward name | Europe Trip |
+| {{date_time}} | Status time | 2026-05-05 15:10 IST |
+| {{reason}} | Rejection reason | Eligibility not met |
+
+Example message:
+Reward {{reward_name}} claim {{status}}. {{reason}}
+
+### Support: ticket status
+
+- Template key: `support_ticket_status`
+- Category: Utility
 - Audience: User
-- Description: SGBN coupon generated
-- Trigger: SGBN coupon creation
-- Variables:
-  - {{amount}}
-  - {{coupon_code}}
-  - {{expires_at}}
+- Trigger: Support ticket created or updated.
 
-### 40) sgbn_coupon_expired
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{ticket_id}} | Ticket ID | ST-9012 |
+| {{status}} | OPEN, IN_PROGRESS, RESOLVED, CLOSED | RESOLVED |
+| {{date_time}} | Update time | 2026-05-05 15:15 IST |
+| {{action_url}} | Ticket link | https://app.sagenex.ai/support |
+
+Example message:
+Support ticket {{ticket_id}} is {{status}}. Details: {{action_url}}
+
+### System: announcement
+
+- Template key: `system_announcement`
+- Category: Utility
 - Audience: User
-- Description: SGBN coupon expired
-- Trigger: Coupon expiry job
-- Variables:
-  - {{coupon_code}}
-  - {{expired_at}}
+- Trigger: Admin announcement or update banner.
 
-### 41) sggold_autopay_success
-- Category: UTILITY
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{title}} | Announcement title | New ROI Rules |
+| {{message}} | Announcement text | ROI rules updated for May 2026. |
+| {{action_url}} | Link | https://app.sagenex.ai/updates |
+
+Example message:
+{{title}}: {{message}} Learn more: {{action_url}}
+
+### System: maintenance notice
+
+- Template key: `system_maintenance_notice`
+- Category: Utility
 - Audience: User
-- Description: SGGOLD autopay success
-- Trigger: Autopay job
-- Variables:
-  - {{amount}}
-  - {{paid_at}}
+- Trigger: Scheduled maintenance.
 
-### 42) sggold_autopay_failed
-- Category: UTILITY
-- Audience: User
-- Description: SGGOLD autopay failed
-- Trigger: Autopay job
-- Variables:
-  - {{amount}}
-  - {{reason}}
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| {{start_time}} | Start time | 2026-05-07 01:00 UTC |
+| {{end_time}} | End time | 2026-05-07 02:00 UTC |
+| {{impact}} | Impact text | Some features may be unavailable |
 
-### 43) sgnxgold_autopay_success
-- Category: UTILITY
-- Audience: User
-- Description: SGNX Gold autopay success
-- Trigger: Autopay job
-- Variables:
-  - {{amount}}
-  - {{paid_at}}
+Example message:
+Scheduled maintenance {{start_time}} to {{end_time}}. {{impact}}.
 
-### 44) sgnxgold_autopay_failed
-- Category: UTILITY
-- Audience: User
-- Description: SGNX Gold autopay failed
-- Trigger: Autopay job
-- Variables:
-  - {{amount}}
-  - {{reason}}
+## WhatsApp placeholder mapping (implementation note)
 
-## Liquidity Pool (LP)
+WhatsApp templates use numbered placeholders like {{1}}, {{2}}. Your backend can map named variables to numbers. Example mapping for `auth_otp_login`:
 
-### 45) lp_deposit_created
-- Category: UTILITY
-- Audience: User
-- Description: LP deposit created
-- Trigger: LP deposit
-- Variables:
-  - {{amount}}
-  - {{tx_id}}
+- {{1}} -> otp_code
+- {{2}} -> otp_expires_in_minutes
 
-### 46) lp_withdrawal_requested
-- Category: UTILITY
-- Audience: User
-- Description: LP withdrawal requested
-- Trigger: LP withdrawal request
-- Variables:
-  - {{amount}}
-  - {{request_id}}
-
-### 47) lp_withdrawal_processed
-- Category: UTILITY
-- Audience: User
-- Description: LP withdrawal processed
-- Trigger: LP withdrawal processed
-- Variables:
-  - {{amount}}
-  - {{tx_id}}
-
-## Lottery and Tests
-
-### 48) lottery_ticket_purchased
-- Category: UTILITY
-- Audience: User
-- Description: Lottery ticket purchased
-- Trigger: Ticket purchase
-- Variables:
-  - {{ticket_count}}
-  - {{amount}}
-  - {{draw_date}}
-
-### 49) lottery_result
-- Category: UTILITY
-- Audience: User
-- Description: Lottery result
-- Trigger: Draw processing
-- Variables:
-  - {{result}}
-  - {{prize_amount}}
-
-### 50) test_booking_otp
-- Category: AUTHENTICATION
-- Audience: User
-- Description: Test booking OTP
-- Trigger: Test booking OTP send
-- Variables:
-  - {{otp_code}}
-  - {{test_type}}
-  - {{amount}}
-
-## Courses
-
-### 51) course_enrolled
-- Category: UTILITY
-- Audience: User
-- Description: Enrolled in a course
-- Trigger: Course enrollment
-- Variables:
-  - {{course_name}}
-  - {{enrolled_at}}
-
-### 52) course_completed
-- Category: UTILITY
-- Audience: User
-- Description: Completed a course
-- Trigger: Course completion
-- Variables:
-  - {{course_name}}
-  - {{completed_at}}
-
-## Biometrics and Face Verification
-
-### 53) face_enrolled
-- Category: UTILITY
-- Audience: User
-- Description: Face enrollment completed
-- Trigger: Face enrollment
-- Variables:
-  - {{timestamp}}
-
-### 54) face_verification_failed
-- Category: UTILITY
-- Audience: User
-- Description: Face verification failed
-- Trigger: Face verification error
-- Variables:
-  - {{timestamp}}
-  - {{reason}}
-
-### 55) face_verification_bypassed
-- Category: UTILITY
-- Audience: User
-- Description: Face verification bypass used
-- Trigger: Bypass recorded
-- Variables:
-  - {{timestamp}}
-
-## Updates and Announcements
-
-### 56) app_update
-- Category: MARKETING
-- Audience: User
-- Description: Product update or announcement
-- Trigger: Admin update publish
-- Variables:
-  - {{title}}
-  - {{summary}}
-  - {{cta_url}}
-
-## Admin or Support (Optional)
-
-### 57) admin_action_needed
-- Category: UTILITY
-- Audience: Admin
-- Description: Admin notification for actions (withdrawal approval, KYC review)
-- Variables:
-  - {{entity_type}}
-  - {{entity_id}}
-  - {{user_id}}
-  - {{priority}}
-
-## Template Naming Convention
-- Prefix: sgnx_
-- Category segment: auth_, util_, mkt_
-- Event key: use the event key above
-
-Example template names:
-- sgnx_auth_auth_email_otp
-- sgnx_util_withdrawal_requested
-- sgnx_util_rank_upgraded
-
-## Standard Payload Shape (Backend)
-Use this object when you emit a notification:
-
-```
-{
-  "event": "rank_upgraded",
-  "userId": "U123",
-  "channel": "whatsapp",
-  "locale": "en",
-  "payload": {
-    "full_name": "Jane Doe",
-    "old_rank": "Builder",
-    "new_rank": "Leader",
-    "achieved_at": "2026-05-05T10:30:00Z",
-    "earnings_multiplier": "3.0"
-  }
-}
-```
-
-## WhatsApp Template Guidelines
-- AUTHENTICATION templates must be used only for OTP/security codes.
-- UTILITY templates are for transactional events related to a user action.
-- MARKETING templates require explicit opt-in.
-- Keep OTP templates very short.
-- Include support contact for failure or rejection cases.
+Repeat this mapping inside the code or template registry for each template key.
